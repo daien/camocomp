@@ -14,19 +14,18 @@ setup(
     url='http://pypi.python.org/pypi/camocomp/',
     license='New BSD License',
     description="CAmera MOtion COMPensation using image stiching techniques to generate stabilized videos",
-    long_description=open('README.txt').read(),
+    long_description=open('README.rst').read(),
+    platforms=["Linux"],
     requires=['numpy', 'ffmpeg', 'cv2', 'hsi'],
     scripts=['scripts/camocomp_video'],
     classifiers=[
         'Intended Audience :: Science/Research',
         'Intended Audience :: Developers',
         'License :: OSI Approved',
-        'Programming Language :: C',
         'Programming Language :: Python',
         'Topic :: Software Development',
         'Topic :: Scientific/Engineering',
-        'Operating System :: POSIX',
+        'Operating System :: POSIX :: Linux',
         'Operating System :: Unix',
-        'Operating System :: MacOS'
     ]
 )

@@ -58,7 +58,7 @@ In the ``camocomp`` directory (same one where you found this file), execute::
 
     python setup.py install
 
-Note: this only works on *nix platforms.
+Note: this only works on Unix-like platforms.
 
 
 License
@@ -80,7 +80,7 @@ stabilized video obtained with the command::
 
 Depending on your input videos, you might need to play around with the input
 field of view parameter (`-f` option) and/or the variables to optimize
-(*v*iewpoint, *p*itch, *y*aw, and *r*oll).
+('v'iewpoint, 'p'itch, 'y'aw, and 'r'oll).
 
 
 How does it work
