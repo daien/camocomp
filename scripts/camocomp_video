@@ -1,0 +1,50 @@
+#!/usr/bin/env python
+
+""" Utility script to generate motion-compensated videos
+"""
+
+import sys
+import getopt
+
+from camocomp import generate_stabilized_video
+
+
+def usage(exit_code=0):
+    sys.stderr.write(
+        '\nCamera Motion Compensation using image stitching techniques\n\n'
+        'Generate a copy of a video in which the camera motion is stabilized.\n\n'
+        'Usage:\n'
+        '            camocomp_video [options] <a video or a list of frames>\n\n'
+        'Options (must come first if any):\n\n'
+        '            -h (display this help message)\n'
+        '            -o <out_avi_video_file_name> (default: out.avi)\n'
+        '            -c (automatically crop the output video, default: False)\n'
+        '            -v <optim_vars v(iewpoint), p(itch), y(aw), r(oll)> (default: v_p_y)\n'
+        '            -f <horizontal field of view in degrees> (default: 40)\n')
+    sys.exit(exit_code)
+
+
+if __name__ == "__main__":
+    try:
+        opts, input_media = getopt.getopt(sys.argv[1:], "o:v:f:c")
+        if len(input_media) < 1:
+            raise
+    except:
+        usage(-1)
+
+    stab_opts = {}
+    for opt, arg in opts:
+        if opt == '-o':
+            stab_opts['out_avi'] = arg
+            assert stab_opts['out_avi'].endswith('.avi'), \
+                    "Output file not an avi video {}".format(stab_opts['out_avi'])
+        elif opt == '-c':
+            stab_opts['crop_out'] = True
+        elif opt == '-v':
+            stab_opts['optim_vars'] = arg
+        elif opt == '-f':
+            stab_opts['hfov'] = int(arg)
+        elif opt == '-h':
+            usage()
+
+    generate_stabilized_video(input_media, **stab_opts)
