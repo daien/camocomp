@@ -1,8 +1,13 @@
 #!/usr/bin/env python
 
-
 from distutils.core import setup
 
+SHORT_DESCR = "CAmera MOtion COMPensation using image stiching techniques to generate stabilized videos"
+
+try:
+    LONG_DESCR = open('README.rst').read()
+except IOError:
+    LONG_DESCR = SHORT_DESCR
 
 setup(
     name='camocomp',
@@ -13,8 +18,8 @@ setup(
     packages=['camocomp'],
     url='http://pypi.python.org/pypi/camocomp/',
     license='New BSD License',
-    description="CAmera MOtion COMPensation using image stiching techniques to generate stabilized videos",
-    long_description=open('README.rst').read(),
+    description=SHORT_DESCR,
+    long_description=LONG_DESCR,
     platforms=["Linux"],
     requires=['numpy', 'ffmpeg', 'cv2', 'hsi'],
     scripts=['scripts/camocomp_video'],
