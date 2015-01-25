@@ -16,6 +16,14 @@ import numpy as np
 import cv2
 import hsi
 
+assert 'SURF' in dir(cv2), "SURF is not available in the cv2 package (version {}).\
+                            some linux distribitions removed it as it contains \
+                            properitery algorithms\
+                            In ubuntu do \
+                            sudo add-apt-repository --yes ppa:xqms/opencv-nonfree\
+                            sudo apt-get update \
+                            sudo apt-get install libopencv-nonfree-dev\
+                             ".format(cv2.__version__)
 
 def get_surf_kps(img_fn, img=None, center_out=0,
                  cness_thresh=1000, min_pts=10, max_pts=300):
@@ -31,7 +39,7 @@ def get_surf_kps(img_fn, img=None, center_out=0,
     if img is None:
         img = cv2.imread(img_fn, 0)
     # detect and describe SURF keypoints
-    cvkp, ds = surf.detect(img, None, None)
+    cvkp, ds = surf.detectAndCompute(img, None, None)
     # re-arrange the data properly
     ds.shape = (-1, surf.descriptorSize())  # reshape to (n_pts, desc_size)
     kp = np.array([p.pt for p in cvkp])
