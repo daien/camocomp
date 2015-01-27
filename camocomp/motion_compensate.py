@@ -336,13 +336,14 @@ def generate_stabilized_video(input_media, optim_vars='v_p_y', hfov=40,
                 cmd = 'ffmpeg -i {} -f image2 -qscale 0 {}/origframe-%06d.jpg'.format(input_media[0], tmp_dir)
                 exec_shell(cmd)
 
-                img_fns = glob('{}/origframe-*.jpg'.format(tmp_dir))
+                img_fns = sorted(glob('{}/origframe-*.jpg'.format(tmp_dir)))
             else:
                 # input arg: assume its directory containing jpg's or png's
                 img_dir = input_media[0]
-                img_fns = glob('{}/*.jpg'.format(img_dir))
+                img_fns = sorted(glob('{}/*.jpg'.format(img_dir)))
                 if len(img_fns) <= 0:
-                    img_fns = glob('{}/*.png'.format(img_dir))
+                    img_fns = sorted(glob('{}/*.png'.format(img_dir)))
+        #otherwise a list of images was given
         else:
             img_fns = input_media
 
