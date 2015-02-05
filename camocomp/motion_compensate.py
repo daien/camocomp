@@ -290,7 +290,7 @@ def warp_crop_and_generate_video(out_avi, optim_proj_file, n_imgs,
     # generate the warped and cropped video
     # Note: directly cropping in ffmpeg (-croptop ...) doesn't work
     # TODO try: -vf crop=...?
-    cmd = "ffmpeg -y -f image2 -i {rit} -vcodec {codec} -sameq -r 25 -an {avi}"
+    cmd = "ffmpeg -y -f image2 -i {rit} -vcodec {codec} -qscale 0 -r 25 -an {avi}"
     exec_shell(cmd.format(rit=rimgt, codec=out_codec, avi=out_avi))
     print "saved {0}".format(out_avi)
 
@@ -333,16 +333,17 @@ def generate_stabilized_video(input_media, optim_vars='v_p_y', hfov=40,
         if len(input_media) == 1:
             if input_media[0][-4:] in ('.avi', 'mpg', '.mp4'):
                 # input arg == a video: dumps its frames
-                exec_shell(
-                    'ffmpeg -i {} -f image2 -sameq {}/origframe-%06d.jpg'.format(
-                        input_media[0], tmp_dir))
-                img_fns = glob('{}/origframe-*.jpg'.format(tmp_dir))
+                cmd = 'ffmpeg -i {} -f image2 -qscale 0 {}/origframe-%06d.jpg'.format(input_media[0], tmp_dir)
+                exec_shell(cmd)
+
+                img_fns = sorted(glob('{}/origframe-*.jpg'.format(tmp_dir)))
             else:
                 # input arg: assume its directory containing jpg's or png's
                 img_dir = input_media[0]
-                img_fns = glob('{}/*.jpg'.format(img_dir))
+                img_fns = sorted(glob('{}/*.jpg'.format(img_dir)))
                 if len(img_fns) <= 0:
-                    img_fns = glob('{}/*.png'.format(img_dir))
+                    img_fns = sorted(glob('{}/*.png'.format(img_dir)))
+        #otherwise a list of images was given
         else:
             img_fns = input_media
 
